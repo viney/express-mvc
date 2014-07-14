@@ -1,0 +1,18 @@
+<% include header.html %>
+
+<div class="container">
+    <form class="form-signin" role="form" method="post" action="/login">
+        <input type="hidden" name="_csrf" value="<%= csrftoken %>">
+        <h2 class="form-signin-heading">用户登陆</h2>
+        <input type="text" class="form-control" id="username" name="username" placeholder="用户名" required autofocus>
+        <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me">记住我
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+</div> <!-- /container -->
+
+<% include footer.html %>
