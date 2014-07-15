@@ -15,9 +15,10 @@ var express = require('express')
     , csrf = require('csurf')
     , methodOverride = require('method-override')
     , errorHandle = require('errorhandler')
-    , http = require('http');
+    , log = require('tracer').console();
 
 var etc = require('./etc/etc');
+var routes = require('./routes');
 
 // ---------------------------------
 // app
@@ -70,6 +71,7 @@ app.use(session({
 // csrf
 app.use(csrf());
 app.use(function(req, res, next){
+    // log.debug('XSRF: ', res.cookie('XSRF-TOKEN'), req.csrfToken());
     res.cookie('XSRF-TOKEN', req.csrfToken());
     res.locals.csrftoken = req.csrfToken();
     next();
@@ -83,54 +85,71 @@ if(app.get('env') == 'development') {
     app.use(errorHandle());
 }
 
-// ===============================
-// bind
 
-// 加载routes
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
-// 绑定请求路由
-app.use('/', routes);
-app.use('/login', users);
-app.use('/logout', users);
-
-// ===============================
+// -------------------------------
 // error handlers
 
+/*
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+log.debug('404 error', req.url);
+var err = new Error('Not Found');
+err.status = 404;
+next(err);
 });
 
 // development error handler
 // will print stacktrace
 if(app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
+app.use(function(err, req, res, next) {
+res.status(err.status || 500);
+res.render('error', {
+message: err.message,
+error: err
+});
+});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message : err.message,
-        error   : {}
-    });
+res.status(err.status || 500);
+res.render('error', {
+message : err.message,
+error   : {}
 });
+});
+*/
+
+app.use(function(req, res, next){
+    res.locals.user = req.session.user;
+    var error = req.session.error;
+    var success = req.session.success;
+    delete req.session.error;
+    delete req.session.success;
+    res.locals.error = '';
+    res.locals.success = '';
+    log.debug('error or success', error, success);
+    if (error){
+        res.locals.error = error; 
+    }
+
+    if (success){
+        res.locals.success = success; 
+    }
+
+    next();
+});
+
+// --------------------------------
+// routes
+// 默认引用routes下index.js模块
+routes(app);
 
 // ==============================
 // listen port
 
-http.createServer(app).listen(app.get('port'), function(){
+app.listen(app.get('port'), function(){
     // console.log(path.basename(__filename));
-    console.log('Express server listening on port: ' + app.get('port'));
+    log.debug('Express server listening on port: ' + app.get('port'));
 });
