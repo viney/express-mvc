@@ -16,7 +16,7 @@ var express = require('express')
     , methodOverride = require('method-override')
     , errorHandle = require('errorhandler')
     , flash = require('connect-flash')
-    , log = require('tracer').console();
+    , log = require('tracer').colorConsole({dateformat: 'yyyy-mm-dd HH:MM:ss.L'});
 
 var etc = require('./etc/etc');
 var routes = require('./routes');
@@ -152,6 +152,6 @@ routes(app);
 // listen port
 
 app.listen(app.get('port'), function(){
-    // console.log(path.basename(__filename));
-    log.debug('Express server listening on port: ' + app.get('port'));
+    // log.debug(path.basename(__filename));
+    log.info('Express server listening on port: ' + app.get('port'));
 });

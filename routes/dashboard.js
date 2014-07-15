@@ -1,6 +1,6 @@
 'use strict'
 
-var log = require('tracer').console();
+var log = require('tracer').colorConsole({dateformat: 'yyyy-mm-dd HH:MM:ss.L'});
 
 /*
  *
