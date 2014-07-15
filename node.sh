@@ -2,6 +2,6 @@
 
 sudo npm install
 
-sudo bower install
+bower install
 
 node app.js
