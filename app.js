@@ -18,8 +18,8 @@ var express = require('express')
     , flash = require('connect-flash')
     , log = require('tracer').colorConsole({dateformat: 'yyyy-mm-dd HH:MM:ss.L'});
 
-var etc = require('./etc/etc');
-var routes = require('./routes');
+var etc = require('./conf/etc');
+var routes = require('./app/routes');
 
 // ---------------------------------
 // app
@@ -30,7 +30,7 @@ var app = module.exports = express();
 // all env
 
 app.set('port', process.env.PORT || 9000);
-app.set('views', path.join(__dirname, 'controllers/views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
 

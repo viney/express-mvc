@@ -1,0 +1,19 @@
+{
+  "name": "express-mvc",
+  "version": "0.0.0",
+  "homepage": "https://github.com/viney/express-mvc",
+  "authors": [
+    "viney <viney.chow@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0"
+  }
+}

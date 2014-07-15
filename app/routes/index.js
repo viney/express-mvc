@@ -11,7 +11,7 @@ var log = require('tracer').colorConsole({dateformat: 'yyyy-mm-dd HH:MM:ss.L'});
 * 
 */
 module.exports = function(app){
-    var routeDir = './routes';
+    var routeDir = './app/routes';
     var indexFile = path.basename(__filename);
     log.debug('routes load---------------');
     log.debug('routeDir', routeDir + "; indexFile: ", indexFile);
