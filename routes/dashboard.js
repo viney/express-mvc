@@ -13,7 +13,7 @@ module.exports = function(app){
         log.debug('/', req.session.user);
         // auth
         if (!req.session.user){
-            req.session.success = '用户已过期，请重新登录！'; 
+            req.flash('success', '用户已过期，请重新登录！'); 
             return res.redirect('/login');
         }
 

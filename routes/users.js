@@ -29,20 +29,19 @@ module.exports = function(app){
             }
 
             req.session.user = user;
-            req.session.success = '登录成功';
+            req.flash('success', '登录成功');
             return res.redirect('/'); 
         }
 
-        req.session.error = '用户名或密码不正确';
+        req.flash('error', '用户名或密码不正确');
         return res.redirect('/login');
     });
 
     app.get('/logout', function(req, res){
-        req.session.success = '已退出';
-        req.session.user = null;         
         // 清空session
-        // req.session.destroy();         
+        req.session.destroy();         
         res.clearCookie('remember');
+
         return res.redirect('/login');
     });
 };

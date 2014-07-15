@@ -15,6 +15,7 @@ var express = require('express')
     , csrf = require('csurf')
     , methodOverride = require('method-override')
     , errorHandle = require('errorhandler')
+    , flash = require('connect-flash')
     , log = require('tracer').console();
 
 var etc = require('./etc/etc');
@@ -67,6 +68,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+// flash
+app.use(flash());
 
 // csrf
 app.use(csrf());
@@ -123,10 +127,8 @@ error   : {}
 
 app.use(function(req, res, next){
     res.locals.user = req.session.user;
-    var error = req.session.error;
-    var success = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
+    var error = req.flash('error');
+    var success = req.flash('success');
     res.locals.error = '';
     res.locals.success = '';
     log.debug('error or success', error, success);
